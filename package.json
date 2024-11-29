@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.1",
+    "greenlock": "^2.8.9",
     "greenlock-express": "^4.0.3",
     "http-proxy-middleware": "^3.0.3",
     "node-cache": "^5.1.2"

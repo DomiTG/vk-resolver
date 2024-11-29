@@ -3,6 +3,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import NodeCache from "node-cache";
 import { exec } from "child_process";
 import fs from "fs";
+import greenlock from "greenlock-express";
 
 const app = express();
 const domainCache = new NodeCache();
@@ -65,4 +66,10 @@ const createSSLCertificate = async (domain: string) => {
 app.listen(4000, async () => {
     console.log("Server running on port 4000");
     //await createSSLCertificate("test.vytvorkonverzku.cz");
+    greenlock.init({
+        packageRoot: __dirname,
+        configDir: LETSENCRYPT_FOLDER,
+        maintainerEmail: "",
+        cluster: false
+    });
 });
