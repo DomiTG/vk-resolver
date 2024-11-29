@@ -63,13 +63,14 @@ const createSSLCertificate = async (domain: string) => {
     
 }
 
-app.listen(4000, async () => {
-    console.log("Server running on port 4000");
-    //await createSSLCertificate("test.vytvorkonverzku.cz");
-    greenlock.init({
-        packageRoot: __dirname,
-        configDir: LETSENCRYPT_FOLDER,
-        maintainerEmail: "domihraje@mail.cz",
-        cluster: false
+greenlock.init({
+    packageRoot: __dirname,
+    configDir: `${LETSENCRYPT_FOLDER}/config`,
+    maintainerEmail: "domihraje@email.cz",
+    cluster: false 
+}).ready((glx) => {
+    console.log("Greenlock is ready");
+    app.listen(4000, () => {
+        console.log("Server is running on port 4000");
     });
 });
