@@ -1,0 +1,24 @@
+{
+  "name": "vk-resolver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "greenlock-express": "^4.0.3",
+    "http-proxy-middleware": "^3.0.3",
+    "node-cache": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/greenlock-express": "^4.0.3",
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}
