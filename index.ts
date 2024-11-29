@@ -2,6 +2,7 @@ import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import NodeCache from "node-cache";
 import { exec } from "child_process";
+import fs from "fs";
 
 const app = express();
 const domainCache = new NodeCache();
@@ -34,11 +35,16 @@ app.use(
     createProxyMiddleware({
         target: NEXTJS_SERVER,
         changeOrigin: true,
+        ssl: {
+            key: fs.readFileSync("/etc/letsencrypt/live/test.vytvorkonverzku.cz/privkey.pem"),
+            cert: fs.readFileSync("/etc/letsencrypt/live/test.vytvorkonverzku.cz/fullchain.pem")
+        },
+        secure: true,
     })
 );
 
 //Let's encrypt SSL certificate creator
-const LETSENCRYPT_FOLDER = "./certs";
+const LETSENCRYPT_FOLDER = "/etc/letsencrypt/live/";
 const createSSLCertificate = async (domain: string) => {
     return new Promise((resolve, reject) => {
         exec(
@@ -58,5 +64,5 @@ const createSSLCertificate = async (domain: string) => {
 
 app.listen(4000, async () => {
     console.log("Server running on port 4000");
-    await createSSLCertificate("test.vytvorkonverzku.cz");
+    //await createSSLCertificate("test.vytvorkonverzku.cz");
 });
