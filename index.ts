@@ -28,6 +28,19 @@ app.use((req: any, res: any, next: any) => {
     next();
 });
 
+app.get("/create-ssl/:domain", async (req: any, res: any) => {
+    const { domain } = req.params;
+    if (!domain) return res.status(400).json({ error: "Domain is required" });
+
+    try {
+        await createSSLCertificate(domain);
+        res.status(200).json({ message: "SSL certificate created successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Error creating SSL certificate" });
+    }
+});
+
+
 // Proxy requests to Next.js
 app.use(
     "*",
@@ -55,18 +68,6 @@ const createSSLCertificate = async (domain: string) => {
         })
     
 }
-
-app.get("/create-ssl/:domain", async (req: any, res: any) => {
-    const { domain } = req.params;
-    if (!domain) return res.status(400).json({ error: "Domain is required" });
-
-    try {
-        await createSSLCertificate(domain);
-        res.status(200).json({ message: "SSL certificate created successfully" });
-    } catch (error) {
-        res.status(500).json({ error: "Error creating SSL certificate" });
-    }
-});
 
 app.listen(4000, () => {
     console.log("Server running on port 4000");
