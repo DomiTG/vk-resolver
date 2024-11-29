@@ -69,7 +69,7 @@ app.listen(4000, async () => {
     greenlock.init({
         packageRoot: __dirname,
         configDir: LETSENCRYPT_FOLDER,
-        maintainerEmail: "domihrajeěmail.cz",
+        maintainerEmail: "domihraje@mail.cz",
         cluster: false
     });
 });
