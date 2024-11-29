@@ -43,7 +43,6 @@ app.get("/create-ssl/:domain", async (req: any, res: any) => {
 
 // Proxy requests to Next.js
 app.use(
-    "*",
     createProxyMiddleware({
         target: NEXTJS_SERVER,
         changeOrigin: true,
