@@ -1,6 +1,7 @@
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import NodeCache from "node-cache";
+import { exec } from "child_process";
 
 const app = express();
 const domainCache = new NodeCache();
@@ -35,6 +36,37 @@ app.use(
         changeOrigin: true,
     })
 );
+
+//Let's encrypt SSL certificate creator
+const LETSENCRYPT_FOLDER = "./certs";
+const createSSLCertificate = async (domain: string) => {
+    return new Promise((resolve, reject) => {
+        exec(
+            `certbot certonly --webroot -w /var/www/html -d ${domain} --non-interactive --agree-tos --email admin@vytvorkonverzku.cz`,
+            (err, stdout, stderr) => {
+                if (err) {
+                    console.error(err);
+                    reject(err);
+                }
+                console.log(stdout);
+                console.log(stderr);
+                resolve({ stdout, stderr });
+            })
+        })
+    
+}
+
+app.get("/create-ssl/:domain", async (req: any, res: any) => {
+    const { domain } = req.params;
+    if (!domain) return res.status(400).json({ error: "Domain is required" });
+
+    try {
+        await createSSLCertificate(domain);
+        res.status(200).json({ message: "SSL certificate created successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Error creating SSL certificate" });
+    }
+});
 
 app.listen(4000, () => {
     console.log("Server running on port 4000");
