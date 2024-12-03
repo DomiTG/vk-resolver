@@ -15,6 +15,8 @@ app.post("/add-domain", (req, res): any => {
   if (!domain) return res.status(400).json({ error: "Domain is required" });
 
   domainCache.set(domain, true);
+  //add to greenlock
+  console.log("yes");
   res.status(200).json({ message: "Domain added successfully" });
 });
 
