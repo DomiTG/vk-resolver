@@ -38,6 +38,7 @@ const greenlock = Greenlock.create({
   configDir: "./greenlock.d", // Directory for Greenlock configurations
   maintainerEmail: "dominik@hula.sh",
   cluster: false, // Set to true if using a cluster (like PM2)
+  store: require("greenlock-store-fs"),
   notify: (event: any, details: any) => {
     console.log(`Greenlock Event: ${event}`, details);
   },
